@@ -6,6 +6,8 @@ set -ex
 
 ./dump.coffee
 
-tar cf - ./data | zstd -T0 -19 -o data.zstd
+tar cf - ./data | zstd -T0 -19 -o qdrant.zstd
 
 rm -rf ./data
+
+rclone copy qdrant.zstd b2:/
