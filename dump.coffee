@@ -3,6 +3,19 @@
 > @w5/pg/APG > ITER ONE LI0 ONE0
   @w5/qdrant:Q
   msgpackr > PackrStream
+  fs/promises > mkdir
+  fs > createWriteStream
+  stream > finished:_finished
+  util > promisify
+  @w5/uridir
+  path > join
+
+finished = promisify _finished
+
+ROOT = uridir import.meta
+
+DATA = join(ROOT, 'data')
+await mkdir(DATA, { recursive: true })
 
 {clip} = Q.POST.collections
 {points} = clip
@@ -29,7 +42,10 @@ clip_iter = ->
 
   return
 
+out = createWriteStream(join DATA,'clip.msgpack')
+
 stream = new PackrStream()
+stream.pipe(out)
 
 for await m from clip_iter()
   ids = [...m.keys()]
@@ -43,4 +59,6 @@ for await m from clip_iter()
     return
   break
 
+stream.end()
+await finished out
 process.exit()
