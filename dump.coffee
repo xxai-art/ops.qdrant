@@ -2,16 +2,16 @@
 
 > @w5/pg/APG > ITER ONE LI0 ONE0
   @w5/qdrant:Q
+  msgpackr > PackrStream
 
 {clip} = Q.POST.collections
 {points} = clip
 
-
-LIMIT = 9
+LIMIT = 3
 SAME = new Set()
 
 # POST /collections/{collection_name}/points/delete
-for await [id] from ITER.bot.clip_same('',{limit})
+for await [id] from ITER.bot.clip_same('',{})
   SAME.add id
 
 clip_iter = ->
@@ -29,11 +29,18 @@ clip_iter = ->
 
   return
 
+stream = new PackrStream()
+
 for await m from clip_iter()
   ids = [...m.keys()]
   li = await points {
     ids
     with_payload:true
+    with_vector:true
   }
-  console.log li
+  li.forEach (i)=>
+    stream.write(i)
+    return
   break
+
+process.exit()
