@@ -17,7 +17,7 @@ await mkdir(DATA, { recursive: true })
 {clip} = Q.POST.collections
 {points} = clip
 
-LIMIT = 3
+LIMIT = 999
 SAME = new Set()
 
 # POST /collections/{collection_name}/points/delete
@@ -44,6 +44,7 @@ out = createWriteStream(join DATA,'clip.msgpack')
 stream = new PackrStream()
 stream.pipe(out)
 
+runed = 0
 for await m from clip_iter()
   ids = [...m.keys()]
   li = await points {
@@ -51,10 +52,12 @@ for await m from clip_iter()
     with_payload:true
     with_vector:true
   }
+  runed += li.length
+  console.log runed
   li.forEach (i)=>
     stream.write(i)
     return
-  break
+  # break
 
 stream.end()
 await finished out
