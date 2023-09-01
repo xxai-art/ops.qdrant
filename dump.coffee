@@ -39,10 +39,10 @@ clip_iter = ->
 
   return
 
-out = createWriteStream(join DATA,'clip.msgpack')
-
-stream = new PackrStream()
-stream.pipe(out)
+# out = createWriteStream(join DATA,'clip.msgpack')
+#
+# stream = new PackrStream()
+# stream.pipe(out)
 
 runed = 0
 for await m from clip_iter()
@@ -57,12 +57,13 @@ for await m from clip_iter()
   li.forEach (i)=>
     {payload} = i
     if 'nsfw' of payload
+      console.log i
       payload.sfw = !payload.nsfw
       delete payload.nsfw
-    stream.write(i)
+    # stream.write(i)
     return
   # break
 
-stream.end()
-await finished out
+# stream.end()
+# await finished out
 process.exit()
