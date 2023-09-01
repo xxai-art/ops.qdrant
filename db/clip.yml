@@ -1,0 +1,20 @@
+- on_disk_payload: true
+  hnsw_index:
+    on_disk: true
+  quantization_config:
+    scalar:
+      always_ram: false
+      quantile: 0.995
+      type: int8
+  vectors:
+    distance: Cosine
+    on_disk: true
+    size: 1024
+- field_name: day
+  field_schema: integer
+- field_name: nsfw
+  field_schema: bool
+- field_name: h
+  field_schema: integer
+- field_name: w
+  field_schema: integer
