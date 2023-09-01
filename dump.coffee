@@ -17,7 +17,7 @@ await mkdir(DATA, { recursive: true })
 {clip} = Q.POST.collections
 {points} = clip
 
-LIMIT = 999
+LIMIT = 9
 SAME = new Set()
 
 # POST /collections/{collection_name}/points/delete
@@ -55,9 +55,13 @@ for await m from clip_iter()
   runed += li.length
   console.log runed
   li.forEach (i)=>
+    {payload} = i
+    if 'nsfw' of payload
+      payload.sfw = !payload.nsfw
+      delete payload.nsfw
     stream.write(i)
     return
-  # break
+  break
 
 stream.end()
 await finished out
