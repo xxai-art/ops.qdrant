@@ -7,14 +7,11 @@
   fs > createWriteStream
   stream > finished:_finished
   util > promisify
-  @w5/uridir
   path > join
+  ./conf > DATA
 
 finished = promisify _finished
 
-ROOT = uridir import.meta
-
-DATA = join(ROOT, 'data')
 await mkdir(DATA, { recursive: true })
 
 {clip} = Q.POST.collections

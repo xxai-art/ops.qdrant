@@ -17,6 +17,7 @@
     "glob": "^10.3.4",
     "glob-promise": "^6.0.3",
     "msgpackr": "^1.9.7",
+    "stream-to-it": "^0.2.4",
     "zx": "^7.2.3"
   }
 }
