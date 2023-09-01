@@ -25,7 +25,7 @@ for await [id] from ITER.bot.clip_same('',{})
   SAME.add id
 
 clip_iter = ->
-  iter = ITER.bot.task('cid,rid,iaa,adult',{where:"iaa>25", LIMIT, id:(+process.env.ID) or 0})
+  iter = ITER.bot.task('cid,rid,iaa,adult',{where:"iaa>25", id:(+process.env.ID) or 0})
   m = new Map
   for await [id,cid,rid,iaa,adult] from iter
     if cid == 1
