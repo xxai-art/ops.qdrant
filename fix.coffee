@@ -21,9 +21,9 @@ loop
 
   for i from points
     {payload,id} = i
+    console.log id, payload
     payload.sfw = !payload.nsfw
     delete payload.nsfw
-    console.log id
     ing.push update {
       points: [id]
       payload
