@@ -3,16 +3,17 @@
 > @w5/qdrant:Q
 
 
-{scroll, payload:update} = Q.POST.collections.clip.points
+{scroll, payload:update, delete: del} = Q.POST.collections.clip.points
 sfw = 'sfw'
+nsfw = 'n'+sfw
 ing = []
 loop
   { points } = await scroll {
     limit: 1024
     with_payload: true
-    filter: must: [
+    filter: must_not: [
       is_empty:
-        key: sfw
+        key: nsfw
     ]
   }
   if not points.length
@@ -27,7 +28,11 @@ loop
       points: [id]
       payload
     }
-    if ing.length > 1024
+    ing.push del {
+      points: [id]
+      keys: [nsfw]
+    }
+    if ing.length > 256
       await Promise.all ing
       ing = []
 
