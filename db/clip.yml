@@ -10,11 +10,5 @@
     distance: Cosine
     on_disk: true
     size: 1024
-- field_name: day
-  field_schema: integer
 - field_name: sfw
   field_schema: bool
-- field_name: h
-  field_schema: integer
-- field_name: w
-  field_schema: integer
