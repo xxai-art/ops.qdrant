@@ -2,6 +2,7 @@
 
 > @w5/pg/APG > ITER ONE LI0 ONE0
   @w5/qdrant:Q
+  @w5/redis/KV
   msgpackr > PackrStream
   fs/promises > mkdir
   fs > createWriteStream
@@ -19,7 +20,10 @@ await mkdir(DATA, { recursive: true })
 
 LIMIT = 999
 SAME = new Set()
+ID_STAR= new Map
 
+for await [id,star] from ITER.bot.civitai_img('star',{})
+  ID_STAR.set id, star
 # POST /collections/{collection_name}/points/delete
 for await [id] from ITER.bot.clip_same('',{})
   SAME.add id
@@ -39,10 +43,10 @@ clip_iter = ->
 
   return
 
-# out = createWriteStream(join DATA,'clip.msgpack')
-#
-# stream = new PackrStream()
-# stream.pipe(out)
+out = createWriteStream(join DATA,'clip.msgpack')
+
+stream = new PackrStream()
+stream.pipe(out)
 
 runed = 0
 for await m from clip_iter()
@@ -54,16 +58,20 @@ for await m from clip_iter()
   }
   runed += li.length
   console.log runed
-  li.forEach (i)=>
-    {payload} = i
-    if 'nsfw' of payload
+  for i from li
+    {payload, id} = i
+    if 'w' of payload
+      {w,h} = payload
+      delete payload.w
+      delete payload.h
+      payload.r = Math.round w * 1024 / h
+      [_,_,iaa,_] = m.get(id)
+      payload.s = 20000 + iaa + Math.log1p(ID_STAR.get(id) or 0)*25
       console.log i
-      payload.sfw = !payload.nsfw
-      delete payload.nsfw
-    # stream.write(i)
-    return
-  # break
+      stream.write(i)
 
-# stream.end()
-# await finished out
+  break
+
+stream.end()
+await finished out
 process.exit()
