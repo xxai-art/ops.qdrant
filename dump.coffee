@@ -63,6 +63,8 @@ for await m from clip_iter()
       {w,h} = payload
       delete payload.w
       delete payload.h
+      if payload.sfw != false
+        delete payload.sfw
       payload.r = Math.round w * 1024 / h
       [_,rid,iaa,_] = m.get(id)
       payload.s = 20000 + iaa + Math.round Math.log1p(ID_STAR.get(rid) or 0)*50
