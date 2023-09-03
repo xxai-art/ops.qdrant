@@ -66,7 +66,7 @@ for await m from clip_iter()
       payload.r = Math.round w * 1024 / h
       [_,rid,iaa,_] = m.get(id)
       payload.s = 20000 + iaa + Math.round Math.log1p(ID_STAR.get(rid) or 0)*50
-      console.log id
+      console.log id, payload
       stream.write(i)
 
 
