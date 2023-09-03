@@ -64,12 +64,11 @@ for await m from clip_iter()
       delete payload.w
       delete payload.h
       payload.r = Math.round w * 1024 / h
-      [_,_,iaa,_] = m.get(id)
-      payload.s = 20000 + iaa + Math.log1p(ID_STAR.get(id) or 0)*25
-      console.log i
+      [_,rid,iaa,_] = m.get(id)
+      payload.s = 20000 + iaa + Math.round Math.log1p(ID_STAR.get(rid) or 0)*50
+      console.log id
       stream.write(i)
 
-  break
 
 stream.end()
 await finished out
