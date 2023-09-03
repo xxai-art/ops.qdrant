@@ -2,7 +2,6 @@
 
 > @w5/pg/APG > ITER ONE LI0 ONE0
   @w5/qdrant:Q
-  @w5/redis/KV
   msgpackr > PackrStream
   fs/promises > mkdir
   fs > createWriteStream
