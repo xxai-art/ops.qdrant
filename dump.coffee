@@ -63,6 +63,9 @@ for await m from clip_iter()
       {w,h} = payload
       delete payload.w
       delete payload.h
+      delete payload.r
+      payload.q = payload.s
+      delete payload.s
       if payload.sfw != false
         delete payload.sfw
       payload.r = Math.round w * 1024 / h
