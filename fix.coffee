@@ -13,7 +13,7 @@ loop
     with_payload: true
     filter: must_not: [
       is_empty:
-        key: 's'
+        key: 'q'
     ]
   }
   console.log points
