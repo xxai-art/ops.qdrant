@@ -59,20 +59,17 @@ for await m from clip_iter()
   console.log runed
   for i from li
     {payload, id} = i
-    if 'w' of payload
-      {w,h} = payload
-      delete payload.w
-      delete payload.h
-      delete payload.r
-      payload.q = payload.s
-      delete payload.s
-      if payload.sfw != false
-        delete payload.sfw
-      payload.r = Math.round w * 1024 / h
-      [_,rid,iaa,_] = m.get(id)
-      payload.s = 20000 + iaa + Math.round Math.log1p(ID_STAR.get(rid) or 0)*50
-      console.log id, payload
-      stream.write(i)
+    delete payload.w
+    delete payload.h
+    delete payload.r
+    payload.q = payload.s
+    delete payload.s
+    if payload.sfw != false
+      delete payload.sfw
+    [_,rid,iaa,_] = m.get(id)
+    payload.s = 20000 + iaa + Math.round Math.log1p(ID_STAR.get(rid) or 0)*50
+    console.log id, payload
+    stream.write(i)
 
 
 stream.end()
