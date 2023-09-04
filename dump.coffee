@@ -28,15 +28,15 @@ for await [id] from ITER.bot.clip_same('',{})
   SAME.add id
 
 clip_iter = ->
-  iter = ITER.bot.task('cid,rid,iaa,adult',{where:"iaa>25", id:(+process.env.ID) or 0})
+  iter = ITER.bot.task('cid',{where:"iaa>25", id:(+process.env.ID) or 0})
   m = new Map
-  for await [id,cid,rid,iaa,adult] from iter
-    if cid == 1
-      if not SAME.has id
-        m.set id,[cid,rid,iaa,adult]
-        if m.size >= LIMIT
-          yield m
-          m = new Map
+  for await [id,cid] from iter
+    # if cid == 1
+    if not SAME.has id
+      m.set id,[]
+      if m.size >= LIMIT
+        yield m
+        m = new Map
   if m.size
     yield m
 
@@ -62,13 +62,13 @@ for await m from clip_iter()
     delete payload.w
     delete payload.h
     delete payload.r
-    payload.q = payload.s
-    delete payload.s
+    if 's' of payload
+      payload.q = payload.s
+      delete payload.s
     if payload.sfw != false
       delete payload.sfw
-    [_,rid,iaa,_] = m.get(id)
-    payload.s = 20000 + iaa + Math.round Math.log1p(ID_STAR.get(rid) or 0)*50
-    console.log id, payload
+    if runed % 100 == 0
+      console.log id, payload
     stream.write(i)
 
 
