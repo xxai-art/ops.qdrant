@@ -7,18 +7,20 @@
 # sfw = 'sfw'
 # nsfw = 'n'+sfw
 ing = []
-loop
+# loop
+for key from 'w h r s'.split(' ')
   { points } = await scroll {
     limit: 1024
     with_payload: true
     filter: must_not: [
-      is_empty:
-        key: 'q'
+      is_empty: {
+        key
+      }
     ]
   }
-  console.log points
-  if not points.length
-    break
+  console.log key,points
+  # if not points.length
+  #   break
 #
 #   for i from points
 #     {payload,id} = i
